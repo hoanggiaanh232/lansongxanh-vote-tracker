@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Làn Sóng Xanh - Vote Tracker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎤 Làn Sóng Xanh - Vote Tracker</h1>
+            <p class="subtitle">Theo dõi lượt bình chọn real-time</p>
+            <div class="info">
+                <span class="status" id="status">🔄 Đang tải...</span>
+                <span class="last-update" id="lastUpdate">Cập nhật lần cuối: --:--:--</span>
+            </div>
+        </header>
+
+        <main>
+            <div id="candidatesList" class="candidates-grid">
+                <!-- Danh sách thí sinh sẽ được chèn vào đây -->
+            </div>
+            <div id="loadingSpinner" class="loading">
+                <div class="spinner"></div>
+                <p>Đang tải dữ liệu...</p>
+            </div>
+            <div id="errorMessage" class="error-message" style="display: none;"></div>
+        </main>
+
+        <footer>
+            <p>💚 Cập nhật tự động mỗi 10 giây</p>
+            <p>Data từ: <a href="https://www.1vote.vn/" target="_blank">1vote.vn</a></p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
