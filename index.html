@@ -1,39 +1,166 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Làn Sóng Xanh - Vote Tracker</title>
-    <link rel="stylesheet" href="style.css">
+    <meta name="description" content="Vote tracking application for Lan Song Xanh">
+    <title>Lan Song Xanh - Vote Tracker</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <header>
-            <h1>🎤 Làn Sóng Xanh - Vote Tracker</h1>
-            <p class="subtitle">Theo dõi lượt bình chọn real-time</p>
-            <div class="info">
-                <span class="status" id="status">🔄 Đang tải...</span>
-                <span class="last-update" id="lastUpdate">Cập nhật lần cuối: --:--:--</span>
+        <!-- Header Section -->
+        <header class="header">
+            <div class="header-content">
+                <h1 class="logo">Lan Song Xanh Vote Tracker</h1>
+                <p class="tagline">Real-time voting results and statistics</p>
             </div>
         </header>
 
-        <main>
-            <div id="candidatesList" class="candidates-grid">
-                <!-- Danh sách thí sinh sẽ được chèn vào đây -->
-            </div>
-            <div id="loadingSpinner" class="loading">
-                <div class="spinner"></div>
-                <p>Đang tải dữ liệu...</p>
-            </div>
-            <div id="errorMessage" class="error-message" style="display: none;"></div>
+        <!-- Navigation Section -->
+        <nav class="navbar">
+            <ul class="nav-list">
+                <li><a href="#overview" class="nav-link">Overview</a></li>
+                <li><a href="#polls" class="nav-link">Polls</a></li>
+                <li><a href="#results" class="nav-link">Results</a></li>
+                <li><a href="#analytics" class="nav-link">Analytics</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Overview Section -->
+            <section id="overview" class="section overview-section">
+                <h2>Overview</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>Total Votes</h3>
+                        <p class="stat-value" id="total-votes">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Active Polls</h3>
+                        <p class="stat-value" id="active-polls">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Completed Polls</h3>
+                        <p class="stat-value" id="completed-polls">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Participation Rate</h3>
+                        <p class="stat-value" id="participation-rate">0%</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Polls Section -->
+            <section id="polls" class="section polls-section">
+                <h2>Active Polls</h2>
+                <div class="controls">
+                    <button class="btn btn-primary" id="create-poll-btn">Create New Poll</button>
+                    <input type="search" class="search-input" id="search-polls" placeholder="Search polls...">
+                </div>
+                <div class="polls-container" id="polls-container">
+                    <!-- Poll items will be dynamically inserted here -->
+                </div>
+            </section>
+
+            <!-- Results Section -->
+            <section id="results" class="section results-section">
+                <h2>Poll Results</h2>
+                <div class="filter-controls">
+                    <select id="result-filter" class="filter-select">
+                        <option value="all">All Polls</option>
+                        <option value="active">Active Polls</option>
+                        <option value="completed">Completed Polls</option>
+                    </select>
+                </div>
+                <div class="results-container" id="results-container">
+                    <!-- Results will be dynamically inserted here -->
+                </div>
+            </section>
+
+            <!-- Analytics Section -->
+            <section id="analytics" class="section analytics-section">
+                <h2>Analytics & Statistics</h2>
+                <div class="analytics-grid">
+                    <div class="chart-container">
+                        <h3>Voting Trends</h3>
+                        <canvas id="voting-trends-chart"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <h3>Poll Distribution</h3>
+                        <canvas id="poll-distribution-chart"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <h3>Top Polls by Votes</h3>
+                        <canvas id="top-polls-chart"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <h3>Voter Demographics</h3>
+                        <canvas id="demographics-chart"></canvas>
+                    </div>
+                </div>
+            </section>
         </main>
 
-        <footer>
-            <p>💚 Cập nhật tự động mỗi 10 giây</p>
-            <p>Data từ: <a href="https://www.1vote.vn/" target="_blank">1vote.vn</a></p>
+        <!-- Modal for Poll Creation/Editing -->
+        <div id="poll-modal" class="modal hidden">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Create New Poll</h2>
+                    <button class="close-btn" id="close-modal">&times;</button>
+                </div>
+                <form id="poll-form" class="poll-form">
+                    <div class="form-group">
+                        <label for="poll-title">Poll Title *</label>
+                        <input type="text" id="poll-title" name="title" required placeholder="Enter poll question">
+                    </div>
+                    <div class="form-group">
+                        <label for="poll-description">Description</label>
+                        <textarea id="poll-description" name="description" placeholder="Enter poll description"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Options *</label>
+                        <div id="options-container">
+                            <div class="option-input-group">
+                                <input type="text" class="option-input" placeholder="Option 1" required>
+                                <button type="button" class="btn-remove-option">Remove</button>
+                            </div>
+                            <div class="option-input-group">
+                                <input type="text" class="option-input" placeholder="Option 2" required>
+                                <button type="button" class="btn-remove-option">Remove</button>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-secondary" id="add-option-btn">Add Option</button>
+                    </div>
+                    <div class="form-group">
+                        <label for="poll-duration">Duration (hours)</label>
+                        <input type="number" id="poll-duration" name="duration" min="1" placeholder="Leave empty for unlimited">
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Create Poll</button>
+                        <button type="button" class="btn btn-secondary" id="cancel-form">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Footer Section -->
+        <footer class="footer">
+            <div class="footer-content">
+                <p>&copy; 2025 Lan Song Xanh Vote Tracker. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="#privacy">Privacy Policy</a>
+                    <a href="#terms">Terms of Service</a>
+                    <a href="#contact">Contact Us</a>
+                </div>
+            </div>
         </footer>
     </div>
 
-    <script src="script.js"></script>
+    <!-- Scripts -->
+    <script src="js/app.js"></script>
+    <script src="js/poll-manager.js"></script>
+    <script src="js/analytics.js"></script>
 </body>
 </html>
